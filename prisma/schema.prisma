@@ -1,0 +1,257 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Define the database schema using Prisma
+
+// Define the Employee table
+model Employee {
+  EmployeeID      Int       @id @default(autoincrement())
+  username        String    @db.VarChar(50) @unique
+  password        String    @db.VarChar(50)
+  FirstName       String    @db.VarChar(25)
+  MiddleName      String?   @db.VarChar(25)
+  LastName        String    @db.VarChar(25)
+  LocationID      Int?
+  Position        String    @db.VarChar(50)
+  ContactNumber   String?
+  HireDate        DateTime
+  Status          Status    
+  Salary          Int
+  Location        Location? @relation(fields: [LocationID], references: [LocationID])
+  Payrolls        Payroll[]
+  Expenses        Expense[]
+  Sales           Sales[]
+  Purchases       Purchase[]
+  // Deliveries      Delivery[]
+  
+}
+
+// Define the Supplier table
+model Supplier {
+  SupplierID      Int       @id @default(autoincrement())
+  FirstName            String    @db.VarChar(50)
+  MiddleName            String    @db.VarChar(50)
+  LastName            String    @db.VarChar(50) 
+  ContactNumber   Int
+  LocationID      Int
+  Location        Location  @relation(fields: [LocationID], references: [LocationID])
+  Purchases       Purchase[]
+}
+
+// Define the Location table
+model Location {
+  LocationID  Int      @id @default(autoincrement())
+  Barangay    String   @db.VarChar(50)
+  City        String   @db.VarChar(50)
+  Province    String?  @db.VarChar(50)
+  Employees   Employee[]
+  Suppliers   Supplier[]
+  Customers   Customer[]
+}
+
+// Define the Customer table
+model Customer {
+  CustomerID      Int       @id @default(autoincrement())
+  FirstName            String    @db.VarChar(50)
+  MiddleName            String    @db.VarChar(50)
+  LastName            String    @db.VarChar(50)
+  ContactNumber   Int
+  LocationID      Int?
+  Location        Location? @relation(fields: [LocationID], references: [LocationID])
+  Sales           Sales[]
+}
+
+// Define the Sales table
+model Sales {
+  SalesID         Int       @id @default(autoincrement())
+  CustomerID      Int
+  EmployeeID      Int
+  InvoiceNo       Int
+  Date            DateTime
+  TotalAmount     Float
+  Customer        Customer  @relation(fields: [CustomerID], references: [CustomerID])
+  Employee        Employee  @relation(fields: [EmployeeID], references: [EmployeeID])
+  SalesItems      SalesItem[]
+  // Delivery        Delivery[]
+}
+
+// Define the SalesItem table
+model SalesItem {
+  SalesItemID     Int       @id @default(autoincrement())
+  SalesID         Int
+  ItemID          Int
+  InventoryId     Int?
+  Quantity        Int
+  Weight          Float?
+  PricePerUnit    Float?
+  Sales           Sales     @relation(fields: [SalesID], references: [SalesID])
+  Item            Item      @relation(fields: [ItemID], references: [ItemID])
+  Inventory       Inventory?@relation(fields: [InventoryId], references: [InventoryID])
+}
+
+// Define the Purchase table
+model Purchase {
+  PurchaseID          Int       @id @default(autoincrement())
+  SupplierID          Int
+  EmployeeID          Int
+  OfficialReceiptNo   Int?
+  Agent               String?   @db.VarChar(50)
+  Date                DateTime
+  TotalAmount         Float
+  Supplier            Supplier  @relation(fields: [SupplierID], references: [SupplierID])
+  Employee            Employee  @relation(fields: [EmployeeID], references: [EmployeeID])
+  PurchaseItems       PurchaseItem[]
+}
+
+// Define the PurchaseItem table
+model PurchaseItem {
+  PurchaseItemID  Int     @id @default(autoincrement())
+  PurchaseID      Int
+  itemID          Int
+  InventoryId     Int?
+  Quantity        Int
+  Weight          Float?
+  PricePerUnit    Float?
+  Purchase        Purchase    @relation(fields: [PurchaseID], references: [PurchaseID])
+  Item            Item        @relation(fields: [itemID], references: [ItemID])
+  Inventory       Inventory?  @relation(fields: [InventoryId], references: [InventoryID])
+}
+
+// Define the Item table
+model Item {
+  ItemID        Int      @id @default(autoincrement())
+  Name          String?  @db.VarChar(50)
+  Type          String   @db.VarChar(50)
+  Quality       String?  @db.VarChar(50)
+  Variety       String?  @db.VarChar(50)
+  SalesItems    SalesItem[]
+  PurchaseItems PurchaseItem[]
+  Inventories   Inventory[]
+  // Productions   Production[]
+}
+
+// Define the Inventory table
+model Inventory {
+  InventoryID   Int        @id @default(autoincrement())
+  ItemID        Int
+  // ProductionID  Int?
+  Acquisition   Acquisition
+  Quantity      Int
+  Date          DateTime?
+  Item          Item       @relation(fields: [ItemID], references: [ItemID])
+  // Production    Production?@relation(fields: [ProductionID], references: [ProductionID])
+  SalesItems    SalesItem[]
+  PurchaseItems PurchaseItem[]
+}
+
+enum Status {
+  active
+  inactive
+}
+
+enum Acquisition {
+  Bought
+  Processed
+}
+
+// Define the Production table
+// model Production {
+//   ProductionID        Int              @id @default(autoincrement())
+//   ItemID              Int
+//   ProductionDate      DateTime
+//   QuantityProcessed   Int
+//   QuantityProduced    Int?
+//   MachineID           Int
+//   Item                Item             @relation(fields: [ItemID], references: [ItemID])
+//   Machine             Machine          @relation(fields: [MachineID], references: [MachineID])
+//   Date        DateTime           @default(now())
+//   Inventory           Inventory[]
+//   ProcessingLosses    ProcessingLoss[]
+// }
+
+// // Define the ProcessingLoss table
+// model ProcessingLoss {
+//   LossID        Int         @id @default(autoincrement())
+//   ProductionID  Int
+//   Name          String
+//   Quantity      Int
+//   Production    Production  @relation(fields: [ProductionID], references: [ProductionID])
+// }
+
+// // Define the Machine table
+// model Machine {
+//   MachineID  Int      @id @default(autoincrement())
+//   Type       String   @db.VarChar(50)
+//   Productions Production[]
+// }
+
+// Define the Payroll table
+model Payroll {
+  PayrollID       Int      @id @default(autoincrement())
+  EmployeeID      Int
+  RefNo           Int
+  Overtime        Int
+  NumberofDays    Int
+  DaysAbsent      Int
+  SSS             Int
+  Date            DateTime
+  LoanDeduction  Int
+  DateFrom        DateTime?
+  DateTo          DateTime?
+  Employee        Employee @relation(fields: [EmployeeID], references: [EmployeeID])
+}
+
+// Define the Expense table
+model Expense {
+  ExpenseID       Int      @id @default(autoincrement())
+  EmployeeID      Int
+  Date            DateTime
+  Name            String
+  Description     String
+  Amount          Float
+  Employee        Employee @relation(fields: [EmployeeID], references: [EmployeeID])
+}
+
+// // Define the Vehicle table
+// model Vehicle {
+//   VehiclePlateNo  Int      @id
+//   VehicleName     String
+//   Capacity        Float
+//   Deliveries      Delivery[]
+// }
+
+// // Define the Delivery table
+// model Delivery {
+//   DeliveryID      Int       @id @default(autoincrement())
+//   VehiclePlateNo Int
+//   SalesID         Int?
+//   EmployeeID      Int
+//   Quantity        Int
+//   Weight          Float?
+//   DeliveryDate    DateTime
+//   Vehicle         Vehicle   @relation(fields: [VehiclePlateNo], references: [VehiclePlateNo])
+//   Sales           Sales?    @relation(fields: [SalesID], references: [SalesID])
+//   Employee        Employee  @relation(fields: [EmployeeID], references: [EmployeeID])
+//   DeliveryCosts   DeliveryCost[]
+// }
+
+// // Define the DeliveryCost table
+// model DeliveryCost {
+//   DeliveryCostID  Int      @id @default(autoincrement())
+//   DeliveryID      Int
+//   Cost            Float
+//   Description     String
+//   Delivery        Delivery @relation(fields: [DeliveryID], references: [DeliveryID])
+// }
