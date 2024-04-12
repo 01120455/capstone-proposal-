@@ -6,9 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:studio": "prisma studio"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
     "@nivo/bar": "^0.85.1",
     "@nivo/line": "^0.85.1",
     "@prisma/client": "^5.12.1",
@@ -36,13 +38,16 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.9.3",
     "next": "14.1.4",
+    "next-connect": "^1.0.0",
     "next-pwa": "^5.6.0",
     "node-fetch": "^3.3.2",
     "react": "^18",
     "react-day-picker": "^8.10.0",
     "react-dom": "^18",
+    "react-hook-form": "^7.51.2",
     "tailwind-merge": "^2.2.2",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",

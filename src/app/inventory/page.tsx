@@ -1,3 +1,4 @@
+"use client";
 import Sidemenu from "../../components/sidemenu/page";
 import EmployeeAvatar from "../../components/employeeavatar/page";
 import { Input } from "@/components/ui/input";
@@ -11,8 +12,43 @@ import {
   Table,
 } from "@/components/ui/table";
 import { CardContent, Card } from "@/components/ui/card";
+import { useEffect, useState } from "react";
 
 export default function Inventory() {
+  const [products, setProducts] = useState([
+    {
+      products: [
+        {
+          name: "",
+          type: "",
+          quality: "",
+          variety: "",
+          quantity: "",
+          acquisition: "",
+        },
+      ],
+    },
+  ]);
+
+  const [itemName, setItemName] = useState("Tite");
+
+  useEffect(() => {
+    async function getInventory() {
+      try {
+        const response = await fetch("/api/product", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        setProducts(await response.json());
+      } catch (error) {
+        console.error("Error fetching inventory:", error);
+      }
+    }
+    getInventory();
+  }, []);
+
   return (
     <div className="flex h-screen">
       <Sidemenu />
@@ -27,6 +63,7 @@ export default function Inventory() {
               <Button variant="outline">Sort by</Button>
             </div>
             <Button>+ Add New Product</Button>
+            <Button onClick={() => setItemName("ilan")}>asdassd</Button>
           </div>
           <Card className="w-full">
             <CardContent>
@@ -43,7 +80,8 @@ export default function Inventory() {
                 </TableHeader>
                 <TableBody>
                   <TableRow>
-                    <TableCell className="font-medium">PRD001</TableCell>
+                    {/* gawan mo ng for loop bukas sa useState products para i loop niya lahat ng item sa inventory */}
+                    <TableCell className="font-medium">{itemName}</TableCell>
                     <TableCell>Example Product 1</TableCell>
                     <TableCell>$19.99</TableCell>
                     <TableCell>35</TableCell>
