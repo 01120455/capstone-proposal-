@@ -41,17 +41,17 @@ export default function Sidemenu() {
               <CollapsibleContent className="grid gap-2 py-2">
                 <Link
                   className="grid h-10 items-center gap-2"
-                  href="/inventory/"
-                >
-                  <PieChartIcon className="w-4 h-4" />
-                  <span className="font-light">View Inventory</span>
-                </Link>
-                <Link
-                  className="grid h-10 items-center gap-2"
                   href="/inventory/addproduct/"
                 >
                   <PieChartIcon className="w-4 h-4" />
                   <span className="font-light">Add Product</span>
+                </Link>
+                <Link
+                  className="grid h-10 items-center gap-2"
+                  href="/inventory/"
+                >
+                  <PieChartIcon className="w-4 h-4" />
+                  <span className="font-light">View Inventory</span>
                 </Link>
               </CollapsibleContent>
             </Collapsible>
@@ -82,7 +82,94 @@ export default function Sidemenu() {
             <Collapsible className="grid items-start">
               <CollapsibleTrigger className="grid h-10 items-center cursor-pointer [&:not([data-state=open])~*:hidden]:last-of-type:translate-y-[-100%]">
                 <a className="flex items-center space-x-3">
-                  <ViewIcon className="h-8 w-8" />
+                  <MoneyIcon className="h-8 w-8" />
+                  <span className="text-sm font-normal">Expense</span>
+                </a>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="grid gap-2 py-2">
+                <Link
+                  className="grid h-10 items-center gap-2"
+                  href="/expense/addexpense"
+                >
+                  <PieChartIcon className="w-4 h-4" />
+                  <span className="font-light">Create Expense</span>
+                </Link>
+                <Link className="grid h-10 items-center gap-2" href="/expense">
+                  <PieChartIcon className="w-4 h-4" />
+                  <span className="font-light">Expense History</span>
+                </Link>
+              </CollapsibleContent>
+            </Collapsible>
+            <Collapsible className="grid items-start">
+              <CollapsibleTrigger className="grid h-10 items-center cursor-pointer [&:not([data-state=open])~*:hidden]:last-of-type:translate-y-[-100%]">
+                <a className="flex items-center space-x-3">
+                  <GiveIcon className="h-8 w-8" />
+                  <span className="text-sm font-normal">Payroll</span>
+                </a>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="grid gap-2 py-2">
+                <Link
+                  className="grid h-10 items-center gap-2"
+                  href="/payroll/addpayroll"
+                >
+                  <PieChartIcon className="w-4 h-4" />
+                  <span className="font-light">Create Payroll</span>
+                </Link>
+                <Link className="grid h-10 items-center gap-2" href="">
+                  <PieChartIcon className="w-4 h-4" />
+                  <span className="font-light">Payroll History</span>
+                </Link>
+              </CollapsibleContent>
+            </Collapsible>
+            <Collapsible className="grid items-start">
+              <CollapsibleTrigger className="grid h-10 items-center cursor-pointer [&:not([data-state=open])~*:hidden]:last-of-type:translate-y-[-100%]">
+                <a className="flex items-center space-x-3">
+                  <WalletIcon className="h-8 w-8" />
+                  <span className="text-sm font-normal">Purchase</span>
+                </a>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="grid gap-2 py-2">
+                <Link
+                  className="grid h-10 items-center gap-2"
+                  href="/purchase/addpurchase"
+                >
+                  <PieChartIcon className="w-4 h-4" />
+                  <span className="font-light">Create Purchase</span>
+                </Link>
+                <Link className="grid h-10 items-center gap-2" href="/purchase">
+                  <PieChartIcon className="w-4 h-4" />
+                  <span className="font-light">Purchase History</span>
+                </Link>
+              </CollapsibleContent>
+            </Collapsible>
+            <Collapsible className="grid items-start">
+              <CollapsibleTrigger className="grid h-10 items-center cursor-pointer [&:not([data-state=open])~*:hidden]:last-of-type:translate-y-[-100%]">
+                <a className="flex items-center space-x-3">
+                  <UserIcon className="h-8 w-8" />
+                  <span className="text-sm font-normal">Employee</span>
+                </a>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="grid gap-2 py-2">
+                <Link
+                  className="grid h-10 items-center gap-2"
+                  href="/employee/addemployee"
+                >
+                  <PieChartIcon className="w-4 h-4" />
+                  <span className="font-light">Add Employee</span>
+                </Link>
+                <Link
+                  className="grid h-10 items-center gap-2 "
+                  href="/employee/viewemployee"
+                >
+                  <PieChartIcon className="w-4 h-4" />
+                  <span className="font-light ">View Employee</span>
+                </Link>
+              </CollapsibleContent>
+            </Collapsible>
+            <Collapsible className="grid items-start">
+              <CollapsibleTrigger className="grid h-10 items-center cursor-pointer [&:not([data-state=open])~*:hidden]:last-of-type:translate-y-[-100%]">
+                <a className="flex items-center space-x-3">
+                  <UsersIcon className="h-8 w-8" />
                   <span className="text-sm font-normal">Customers</span>
                 </a>
               </CollapsibleTrigger>
@@ -91,28 +178,33 @@ export default function Sidemenu() {
             <Collapsible className="grid items-start">
               <CollapsibleTrigger className="grid h-10 items-center cursor-pointer [&:not([data-state=open])~*:hidden]:last-of-type:translate-y-[-100%]">
                 <a className="flex items-center space-x-3">
-                  <WalletIcon className="h-8 w-8" />
-                  <span className="text-sm font-normal">Finance</span>
+                  <UsersIcon className="h-8 w-8" />
+                  <span className="text-sm font-normal">Supplier</span>
+                </a>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="grid gap-2 py-2"></CollapsibleContent>
+            </Collapsible>
+            <Collapsible className="grid items-start">
+              <CollapsibleTrigger className="grid h-10 items-center cursor-pointer [&:not([data-state=open])~*:hidden]:last-of-type:translate-y-[-100%]">
+                <a className="flex items-center space-x-3">
+                  <PackageIcon className="h-8 w-8" />
+                  <span className="text-sm font-normal">Delivery</span>
                 </a>
               </CollapsibleTrigger>
               <CollapsibleContent className="grid gap-2 py-2">
                 <Link
                   className="grid h-10 items-center gap-2"
-                  href="/purchase/"
+                  href="/delivery/adddelivery"
                 >
                   <PieChartIcon className="w-4 h-4" />
-                  <span className="font-light">Purchase</span>
-                </Link>
-                <Link className="grid h-10 items-center gap-2" href="/payroll/">
-                  <PieChartIcon className="w-4 h-4" />
-                  <span className="font-light">Payroll</span>
+                  <span className="font-light">Create Delivery</span>
                 </Link>
                 <Link
                   className="grid h-10 items-center gap-2 "
-                  href="/expense/"
+                  href=""
                 >
                   <PieChartIcon className="w-4 h-4" />
-                  <span className="font-light ">Expense</span>
+                  <span className="font-light ">Logistics History</span>
                 </Link>
               </CollapsibleContent>
             </Collapsible>
@@ -129,6 +221,137 @@ export default function Sidemenu() {
         </button>
       </aside>
     </>
+  );
+}
+
+function MoneyIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      {...props}
+    >
+      <rect width="20" height="12" x="2" y="6" rx="2" />
+      <circle cx="12" cy="12" r="2" />
+      <path d="M6 12h.01M18 12h.01" />
+    </svg>
+  );
+}
+
+function GiveIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      {...props}
+    >
+      <path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17" />
+      <path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9" />
+      <path d="m2 16 6 6" />
+      <circle cx="16" cy="9" r="2.9" />
+      <circle cx="6" cy="5" r="3" />
+    </svg>
+  );
+}
+
+function PackageIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="m7.5 4.27 9 5.15" />
+      <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+      <path d="m3.3 7 8.7 5 8.7-5" />
+      <path d="M12 22V12" />
+    </svg>
+  );
+}
+
+function TruckIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M5 18H3c-.6 0-1-.4-1-1V7c0-.6.4-1 1-1h10c.6 0 1 .4 1 1v11" />
+      <path d="M14 9h4l4 4v4c0 .6-.4 1-1 1h-2" />
+      <circle cx="7" cy="18" r="2" />
+      <path d="M15 18H9" />
+      <circle cx="17" cy="18" r="2" />
+    </svg>
+  );
+}
+
+function UserIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </svg>
+  );
+}
+
+function UsersIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
   );
 }
 

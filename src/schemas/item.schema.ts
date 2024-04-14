@@ -7,10 +7,10 @@ export const item = z.object({
   variety: z.string(),
   quantity: z.coerce.number(),
   acquisition: z
-    .enum(["bought", "processed"], {
+    .enum(["Bought", "Processed"], {
       invalid_type_error: "Invalid Type Recieved",
     })
-    .default("processed"),
+    .default("Processed"),
 });
 
 export type AddItem = z.infer<typeof item>;

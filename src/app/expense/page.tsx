@@ -1,3 +1,5 @@
+"use client";
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import {
   CardTitle,
   CardDescription,
@@ -6,10 +8,7 @@ import {
   CardFooter,
   Card,
 } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+
 import Sidemenu from "../../components/sidemenu/page";
 import EmployeeAvatar from "../../components/employeeavatar/page";
 import {
@@ -28,50 +27,6 @@ export default function expense() {
       <div className="flex-1 overflow-y-auto p-8">
         <EmployeeAvatar />
         <div className="flex flex-col w-full space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Enter new expense</CardTitle>
-              <CardDescription>
-                Add a new expense to the list below.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-4">
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div className="flex flex-col gap-1">
-                  <Label className="text-sm" htmlFor="date">
-                    Date
-                  </Label>
-                  <Input id="date" type="date" />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <Label className="text-sm" htmlFor="name">
-                    Expense Name
-                  </Label>
-                  <Input id="name" placeholder="Name" />
-                </div>
-              </div>
-              <div className="flex flex-col gap-1">
-                <Label className="text-sm" htmlFor="description">
-                  Description
-                </Label>
-                <Textarea
-                  id="description"
-                  placeholder="Enter a description for the expense."
-                />
-              </div>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div className="flex flex-col gap-1">
-                  <Label className="text-sm" htmlFor="amount">
-                    Amount
-                  </Label>
-                  <Input id="amount" placeholder="Amount" type="number" />
-                </div>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button>Submit</Button>
-            </CardFooter>
-          </Card>
           <Card>
             <CardHeader>
               <CardTitle>Expense list</CardTitle>

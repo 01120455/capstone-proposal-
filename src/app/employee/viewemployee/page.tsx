@@ -21,7 +21,7 @@ export default function Component() {
         <div className="flex flex-col w-full gap-2">
           <div className="container px-4 py-6 md:py-8 md:px-6 bg-white rounded-xl">
             <div className="relative ">
-              <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
+              <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 mb-2 text-gray-500 dark:text-gray-400" />
               <Input
                 className="pl-8 w-full md:w-[400px]"
                 placeholder="Search employees..."

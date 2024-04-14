@@ -1,6 +1,6 @@
 // Import necessary modules
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import { Acquisition, PrismaClient } from "@prisma/client";
 import { error } from "console";
 
 // There is an existing error where req.body is not being parsed correctly. where req.body contents Undefined in console log check for fix.
@@ -19,7 +19,8 @@ export const config = {
 export const POST = async (req: Request) => {
   try {
     // Extract the required fields from the request body
-    const { name, type, quality, variety, quantity } = await req.json();
+    const { name, type, quality, variety, quantity, acquisition } =
+      await req.json();
     console.log("Request body:", name, type, quality, variety, quantity);
 
     // Validate the request body
@@ -47,26 +48,36 @@ export const POST = async (req: Request) => {
       });
     }
 
-    // Check if the item already exists in the Inventory table
+    // Check if the inventory with the same item ID and acquisition type exists
     const existingInventory = await prisma.inventory.findFirst({
-      where: { ItemID: { equals: item.ItemID } },
+      where: {
+        ItemID: { equals: item.ItemID },
+        Acquisition: { equals: acquisition as Acquisition },
+      },
     });
 
     if (existingInventory) {
-      // If the item exists in the Inventory table, update the quantity
-      await prisma.inventory.update({
-        where: { InventoryID: existingInventory.InventoryID },
-        data: {
-          Quantity: existingInventory.Quantity + parseInt(quantity, 10),
-        },
-      });
+      // If the item exists in the Inventory table with the same Acquisition
+      // Update the quantity based on the acquisition type
+      if (acquisition === "Bought" || acquisition === "Processed") {
+        await prisma.inventory.update({
+          where: { InventoryID: existingInventory.InventoryID },
+          data: {
+            Quantity: existingInventory.Quantity + parseInt(quantity, 10),
+          },
+        });
+      } else {
+        // Handle other types of acquisitions here
+        console.log("No action taken for acquisition:", acquisition);
+      }
     } else {
-      // If the item doesn't exist in the Inventory table, create a new entry
+      // If the item doesn't exist in the Inventory table with the same Acquisition
+      // Create a new entry in the Inventory table
       await prisma.inventory.create({
         data: {
           Item: { connect: { ItemID: item.ItemID } },
           Quantity: parseInt(quantity, 10),
-          Acquisition: "Processed", // Provide a default value or adjust as necessary
+          Acquisition: acquisition,
         },
       });
     }

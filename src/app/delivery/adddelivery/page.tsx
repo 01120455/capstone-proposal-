@@ -8,8 +8,8 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Sidemenu from "../../components/sidemenu/page";
-import EmployeeAvatar from "../../components/employeeavatar/page";
+import Sidemenu from "../../../components/sidemenu/page";
+import EmployeeAvatar from "../../../components/employeeavatar/page";
 
 export default function Component() {
   return (

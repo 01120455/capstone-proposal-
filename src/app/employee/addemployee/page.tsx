@@ -23,7 +23,7 @@ export default function Component() {
             <CardHeader>
               <CardTitle>Add Employee</CardTitle>
               <CardDescription>
-                Enter the employee's information below.
+                Enter the employee&apos;s information below.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">

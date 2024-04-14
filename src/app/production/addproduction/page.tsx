@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
-import { AddItem, item } from "@/schemas/item.schema";
+import { AddItem, productionItem } from "@/schemas/item.schema";
 import {
   Form,
   FormControl,
@@ -26,50 +26,65 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Toaster } from "@/components/ui/sonner";
-import { toast } from "sonner";
 
-export default function AddProduct() {
+// There is an existing error where data is not being parsed correctly. Check for fix.
+
+export default function AddProduction() {
+  // const [formData, setFormData] = useState({
+  //   name: "",
+  //   type: "",
+  //   quality: "",
+  //   variety: "",
+  //   quantity: "",
+  //   acquisition: "",
+  // });
+
   const form = useForm<AddItem>({
-    resolver: zodResolver(item),
+    resolver: zodResolver(productionItem),
     defaultValues: {
       name: "",
       type: "",
       quality: "",
       variety: "",
-      quantity: undefined,
-      acquisition: "Processed",
+      quantity: 0,
+      // acquisition: "processed",
     },
   });
 
+  // const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prevFormData) => ({
+  //     ...prevFormData,
+  //     [name]: value,
+  //   }));
+  // };
+
   const handleSubmit = async (values: AddItem) => {
+    // e.preventDefault();
     try {
-      await axios.post("/api/addproduct", values, {
+      // Send the serialized data in the request body
+      await axios.post("/api/product", values, {
         headers: {
           "Content-Type": "application/json",
         },
       });
       console.log("Product added successfully");
-      // show a success message to the user via alert,sonner, toast ???
+      // Optionally, you can redirect the user or show a success message here
     } catch (error) {
       console.error("Error adding product:", error);
-      // show an error message to the user via alert,sonner,toast ???
+      // Optionally, you can show an error message to the user
     }
   };
 
   return (
     <div className="flex h-screen">
       <Sidemenu />
-      <Toaster />
       <div className="flex-1 overflow-y-auto p-8 ">
         <EmployeeAvatar />
         <Form {...form}>
           <form
             className="flex justify-center"
-            onSubmit={(event) => {
-              form.handleSubmit(handleSubmit)(event); // Submit the form
-              toast("Item Added to Invetory", {});
-            }}
+            onSubmit={form.handleSubmit(handleSubmit)}
           >
             <Card className="w-full max-w-3xl ">
               <CardHeader className="flex flex-row space-y-0 items-start gap-2">
@@ -96,8 +111,29 @@ export default function AddProduct() {
                       </FormItem>
                     )}
                   />
+                  {/* 
+                  <Label className="text-base" htmlFor="name">
+                    Name
+                  </Label>
+                  <Input
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Enter product name..."
+                  /> */}
                 </div>
                 <div className="grid gap-2">
+                  {/* <Label className="text-base" htmlFor="type">
+                    Type
+                  </Label>
+                  <Input
+                    id="type"
+                    name="type"
+                    value={formData.type}
+                    onChange={handleChange}
+                    placeholder="Enter product type..."
+                  /> */}
                   <FormField
                     control={form.control}
                     name="type"
@@ -116,6 +152,26 @@ export default function AddProduct() {
                   />
                 </div>
                 <div className="grid gap-2">
+                  {/* <Label className="text-base" htmlFor="quality">
+                    Quality
+                  </Label>
+                  <Input
+                    id="quality"
+                    name="quality"
+                    value={formData.quality}
+                    onChange={handleChange}
+                    placeholder="Enter quality..."
+                  />
+                  <Label className="text-base" htmlFor="variety">
+                    Variety
+                  </Label>
+                  <Input
+                    id="variety"
+                    name="variety"
+                    value={formData.variety}
+                    onChange={handleChange}
+                    placeholder="Enter variety..."
+                  /> */}
                   <FormField
                     control={form.control}
                     name="variety"
@@ -150,6 +206,16 @@ export default function AddProduct() {
                   />
                 </div>
                 <div className="grid gap-2">
+                  {/* <Label className="text-base" htmlFor="quantity">
+                    Quantity
+                  </Label>
+                  <Input
+                    id="quantity"
+                    name="quantity"
+                    value={formData.quantity}
+                    onChange={handleChange}
+                    placeholder="Enter quantity..."
+                  /> */}
                   <FormField
                     control={form.control}
                     name="quantity"
@@ -168,6 +234,16 @@ export default function AddProduct() {
                   />
                 </div>
                 <div className="grid gap-2">
+                  {/* <Label className="text-base" htmlFor="acquisition">
+                    Acquisition
+                  </Label>
+                  <Input
+                    id="acquisition"
+                    name="acquisition"
+                    value={formData.acquisition}
+                    onChange={handleChange}
+                    placeholder="Enter product acquisition..."
+                  /> */}
                   <FormField
                     control={form.control}
                     name="acquisition"

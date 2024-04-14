@@ -25,7 +25,7 @@ model Employee {
   LastName        String    @db.VarChar(25)
   LocationID      Int?
   Position        String    @db.VarChar(50)
-  ContactNumber   String?
+  ContactNumber   Int?
   HireDate        DateTime
   Status          Status    
   Salary          Int
@@ -34,7 +34,7 @@ model Employee {
   Expenses        Expense[]
   Sales           Sales[]
   Purchases       Purchase[]
-  // Deliveries      Delivery[]
+  Deliveries      Delivery[]
   
 }
 
@@ -84,7 +84,7 @@ model Sales {
   Customer        Customer  @relation(fields: [CustomerID], references: [CustomerID])
   Employee        Employee  @relation(fields: [EmployeeID], references: [EmployeeID])
   SalesItems      SalesItem[]
-  // Delivery        Delivery[]
+  Delivery        Delivery[]
 }
 
 // Define the SalesItem table
@@ -139,19 +139,19 @@ model Item {
   SalesItems    SalesItem[]
   PurchaseItems PurchaseItem[]
   Inventories   Inventory[]
-  // Productions   Production[]
+  Productions   Production[]
 }
 
 // Define the Inventory table
 model Inventory {
   InventoryID   Int        @id @default(autoincrement())
   ItemID        Int
-  // ProductionID  Int?
+  ProductionID  Int?
   Acquisition   Acquisition
   Quantity      Int
   Date          DateTime?
   Item          Item       @relation(fields: [ItemID], references: [ItemID])
-  // Production    Production?@relation(fields: [ProductionID], references: [ProductionID])
+  Production    Production?@relation(fields: [ProductionID], references: [ProductionID])
   SalesItems    SalesItem[]
   PurchaseItems PurchaseItem[]
 }
@@ -167,46 +167,43 @@ enum Acquisition {
 }
 
 // Define the Production table
-// model Production {
-//   ProductionID        Int              @id @default(autoincrement())
-//   ItemID              Int
-//   ProductionDate      DateTime
-//   QuantityProcessed   Int
-//   QuantityProduced    Int?
-//   MachineID           Int
-//   Item                Item             @relation(fields: [ItemID], references: [ItemID])
-//   Machine             Machine          @relation(fields: [MachineID], references: [MachineID])
-//   Date        DateTime           @default(now())
-//   Inventory           Inventory[]
-//   ProcessingLosses    ProcessingLoss[]
-// }
+model Production {
+  ProductionID        Int              @id @default(autoincrement())
+  ItemID              Int
+  ProductionDate      DateTime
+  QuantityProcessed   Int
+  QuantityProduced    Int?
+  MachineID           Int
+  Item                Item             @relation(fields: [ItemID], references: [ItemID])
+  Machine             Machine          @relation(fields: [MachineID], references: [MachineID])
+  Inventory           Inventory[]
+  ProcessingLosses    ProcessingLoss[]
+}
 
 // // Define the ProcessingLoss table
-// model ProcessingLoss {
-//   LossID        Int         @id @default(autoincrement())
-//   ProductionID  Int
-//   Name          String
-//   Quantity      Int
-//   Production    Production  @relation(fields: [ProductionID], references: [ProductionID])
-// }
+model ProcessingLoss {
+  LossID        Int         @id @default(autoincrement())
+  ProductionID  Int
+  Name          String
+  Quantity      Int
+  Production    Production  @relation(fields: [ProductionID], references: [ProductionID])
+}
 
 // // Define the Machine table
-// model Machine {
-//   MachineID  Int      @id @default(autoincrement())
-//   Type       String   @db.VarChar(50)
-//   Productions Production[]
-// }
+model Machine {
+  MachineID  Int      @id @default(autoincrement())
+  Type       String   @db.VarChar(50)
+  Productions Production[]
+}
 
 // Define the Payroll table
 model Payroll {
   PayrollID       Int      @id @default(autoincrement())
   EmployeeID      Int
-  RefNo           Int
   Overtime        Int
   NumberofDays    Int
   DaysAbsent      Int
   SSS             Int
-  Date            DateTime
   LoanDeduction  Int
   DateFrom        DateTime?
   DateTo          DateTime?
@@ -225,33 +222,33 @@ model Expense {
 }
 
 // // Define the Vehicle table
-// model Vehicle {
-//   VehiclePlateNo  Int      @id
-//   VehicleName     String
-//   Capacity        Float
-//   Deliveries      Delivery[]
-// }
+model Vehicle {
+  VehiclePlateNo  Int      @id
+  VehicleName     String
+  Capacity        Float
+  Deliveries      Delivery[]
+}
 
 // // Define the Delivery table
-// model Delivery {
-//   DeliveryID      Int       @id @default(autoincrement())
-//   VehiclePlateNo Int
-//   SalesID         Int?
-//   EmployeeID      Int
-//   Quantity        Int
-//   Weight          Float?
-//   DeliveryDate    DateTime
-//   Vehicle         Vehicle   @relation(fields: [VehiclePlateNo], references: [VehiclePlateNo])
-//   Sales           Sales?    @relation(fields: [SalesID], references: [SalesID])
-//   Employee        Employee  @relation(fields: [EmployeeID], references: [EmployeeID])
-//   DeliveryCosts   DeliveryCost[]
-// }
+model Delivery {
+  DeliveryID      Int       @id @default(autoincrement())
+  VehiclePlateNo Int
+  SalesID         Int?
+  EmployeeID      Int
+  Quantity        Int
+  Weight          Float?
+  DeliveryDate    DateTime
+  Vehicle         Vehicle   @relation(fields: [VehiclePlateNo], references: [VehiclePlateNo])
+  Sales           Sales?    @relation(fields: [SalesID], references: [SalesID])
+  Employee        Employee  @relation(fields: [EmployeeID], references: [EmployeeID])
+  DeliveryCosts   DeliveryCost[]
+}
 
 // // Define the DeliveryCost table
-// model DeliveryCost {
-//   DeliveryCostID  Int      @id @default(autoincrement())
-//   DeliveryID      Int
-//   Cost            Float
-//   Description     String
-//   Delivery        Delivery @relation(fields: [DeliveryID], references: [DeliveryID])
-// }
+model DeliveryCost {
+  DeliveryCostID  Int      @id @default(autoincrement())
+  DeliveryID      Int
+  Cost            Float
+  Description     String
+  Delivery        Delivery @relation(fields: [DeliveryID], references: [DeliveryID])
+}

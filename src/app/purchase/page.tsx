@@ -1,7 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import Sidemenu from "../../components/sidemenu/page";
 import EmployeeAvatar from "../../components/employeeavatar/page";
+import {
+  TableHead,
+  TableRow,
+  TableHeader,
+  TableCell,
+  TableBody,
+  Table,
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 import {
   CardTitle,
   CardDescription,
@@ -10,170 +19,142 @@ import {
   CardFooter,
   Card,
 } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-
-interface ItemType {
-  name: string;
-  quantity: string;
-  weight: string;
-  price: string;
-}
 
 export default function Purchase() {
-  const [items, setItems] = useState<ItemType[]>([
-    { name: "", quantity: "", weight: "", price: "" },
-  ]);
-
-  const handleAddItem = () => {
-    setItems([...items, { name: "", quantity: "", weight: "", price: "" }]);
-  };
-
-  const handleRemoveItem = (index: number) => {
-    const updatedItems = [...items];
-    updatedItems.splice(index, 1);
-    setItems(updatedItems);
-  };
-
-  const handleInputChange = (
-    index: number,
-    field: keyof ItemType,
-    value: string
-  ) => {
-    const updatedItems = [...items];
-    updatedItems[index][field] = value;
-    setItems(updatedItems);
-  };
-
-  const handleSave = () => {
-    // Add your save logic here
-    console.log("Items to be saved:", items);
-    // You can send the items data to an API or perform any other saving action
-  };
-
   return (
     <div className="flex h-screen">
       <Sidemenu />
-      <form className="flex-1 overflow-y-auto p-8">
+      <div className="flex-1 overflow-y-auto p-8">
         <EmployeeAvatar />
-        <Card className="mx-auto max-w-3xl">
-          <CardHeader>
-            <CardTitle className="text-3xl">Create Purchase Invoice</CardTitle>
-            <CardDescription>
-              Enter supplier and item details to create an invoice
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <div>
-                <Label htmlFor="invoice-number">Invoice Number</Label>
-                <Input id="invoice-number" placeholder="Enter invoice number" />
-              </div>
-              <div>
-                <Label htmlFor="supplier-name">Supplier Name</Label>
-                <Input id="supplier-name" placeholder="Enter supplier name" />
-              </div>
-            </div>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-              <div>
-                <Label htmlFor="supplier-number">Customer Number</Label>
-                <Input
-                  id="supplier-number"
-                  placeholder="Enter customer number"
-                />
-              </div>
-              <div>
-                <Label htmlFor="agent">Agent</Label>
-                <Input id="agent" placeholder="Enter agent name" />
-              </div>
-              <div>
-                <Label htmlFor="barangay">Barangay</Label>
-                <Input id="barangay" placeholder="Enter barangay" />
-              </div>
-              <div>
-                <Label htmlFor="city">City</Label>
-                <Input id="city" placeholder="Enter city" />
-              </div>
-              <div>
-                <Label htmlFor="province">Province</Label>
-                <Input id="province" placeholder="Enter province" />
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="items">Items</Label>
-              {items.map((item, index) => (
-                <div
-                  key={index}
-                  className="grid grid-cols-1 gap-2 sm:grid-cols-4"
-                >
-                  <div>
-                    <Input
-                      placeholder="Item name"
-                      value={item.name}
-                      onChange={(e) =>
-                        handleInputChange(index, "name", e.target.value)
-                      }
-                    />
-                  </div>
-                  <div>
-                    <Input
-                      placeholder="Quantity"
-                      type="number"
-                      value={item.quantity}
-                      onChange={(e) =>
-                        handleInputChange(index, "quantity", e.target.value)
-                      }
-                    />
-                  </div>
-                  <div>
-                    <Input
-                      placeholder="Weight"
-                      type="number"
-                      value={item.weight}
-                      onChange={(e) =>
-                        handleInputChange(index, "weight", e.target.value)
-                      }
-                    />
-                  </div>
-                  <div>
-                    <Input
-                      placeholder="Price per unit"
-                      value={item.price}
-                      onChange={(e) =>
-                        handleInputChange(index, "price", e.target.value)
-                      }
-                    />
-                  </div>
-                  <Button
-                    className="rounded-full"
-                    onClick={() => handleRemoveItem(index)}
-                  >
-                    Remove
-                  </Button>
-                </div>
-              ))}
-              <Button
-                type="button"
-                className="rounded-full"
-                onClick={handleAddItem}
-              >
-                +
-              </Button>
-            </div>
-          </CardContent>
-          <CardFooter className="flex justify-end">
-            <Button className="mr-2" onClick={handleSave}>
-              Save
-            </Button>
-          </CardFooter>
-        </Card>
-      </form>
+        <div className="flex flex-col gap-4 p-4 border rounded-lg w-full">
+          <Card>
+            <CardHeader>
+              <CardTitle>Purchase History</CardTitle>
+              <CardDescription>
+                Here are the purchases you've created.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[100px]">Purchase ID</TableHead>
+                    <TableHead>Supplier ID</TableHead>
+                    <TableHead>Employee ID</TableHead>
+                    <TableHead>Official Receipt No</TableHead>
+                    <TableHead>Agent</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Total Amount</TableHead>
+                    <TableHead className="w-[100px]">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell className="font-medium">PUR001</TableCell>
+                    <TableCell>SUP001</TableCell>
+                    <TableCell>EMP001</TableCell>
+                    <TableCell>OR001</TableCell>
+                    <TableCell>John Doe</TableCell>
+                    <TableCell>2023-05-12</TableCell>
+                    <TableCell>$500.00</TableCell>
+                    <TableCell className="flex gap-2">
+                      <Button className="h-8 w-8" size="icon" variant="ghost">
+                        <FileEditIcon className="h-4 w-4" />
+                        <span className="sr-only">Edit</span>
+                      </Button>
+                      <Button className="h-8 w-8" size="icon" variant="ghost">
+                        <TrashIcon className="h-4 w-4" />
+                        <span className="sr-only">Delete</span>
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium">PUR002</TableCell>
+                    <TableCell>SUP002</TableCell>
+                    <TableCell>EMP002</TableCell>
+                    <TableCell>OR002</TableCell>
+                    <TableCell>Jane Smith</TableCell>
+                    <TableCell>2023-06-20</TableCell>
+                    <TableCell>$250.00</TableCell>
+                    <TableCell className="flex gap-2">
+                      <Button className="h-8 w-8" size="icon" variant="ghost">
+                        <FileEditIcon className="h-4 w-4" />
+                        <span className="sr-only">Edit</span>
+                      </Button>
+                      <Button className="h-8 w-8" size="icon" variant="ghost">
+                        <TrashIcon className="h-4 w-4" />
+                        <span className="sr-only">Delete</span>
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium">PUR003</TableCell>
+                    <TableCell>SUP003</TableCell>
+                    <TableCell>EMP003</TableCell>
+                    <TableCell>OR003</TableCell>
+                    <TableCell>Mark Johnson</TableCell>
+                    <TableCell>2023-07-15</TableCell>
+                    <TableCell>$350.00</TableCell>
+                    <TableCell className="flex gap-2">
+                      <Button className="h-8 w-8" size="icon" variant="ghost">
+                        <FileEditIcon className="h-4 w-4" />
+                        <span className="sr-only">Edit</span>
+                      </Button>
+                      <Button className="h-8 w-8" size="icon" variant="ghost">
+                        <TrashIcon className="h-4 w-4" />
+                        <span className="sr-only">Delete</span>
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium">PUR004</TableCell>
+                    <TableCell>SUP004</TableCell>
+                    <TableCell>EMP004</TableCell>
+                    <TableCell>OR004</TableCell>
+                    <TableCell>Emily Brown</TableCell>
+                    <TableCell>2023-08-10</TableCell>
+                    <TableCell>$450.00</TableCell>
+                    <TableCell className="flex gap-2">
+                      <Button className="h-8 w-8" size="icon" variant="ghost">
+                        <FileEditIcon className="h-4 w-4" />
+                        <span className="sr-only">Edit</span>
+                      </Button>
+                      <Button className="h-8 w-8" size="icon" variant="ghost">
+                        <TrashIcon className="h-4 w-4" />
+                        <span className="sr-only">Delete</span>
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium">PUR005</TableCell>
+                    <TableCell>SUP005</TableCell>
+                    <TableCell>EMP005</TableCell>
+                    <TableCell>OR005</TableCell>
+                    <TableCell>Andrew Wilson</TableCell>
+                    <TableCell>2023-09-25</TableCell>
+                    <TableCell>$550.00</TableCell>
+                    <TableCell className="flex gap-2">
+                      <Button className="h-8 w-8" size="icon" variant="ghost">
+                        <FileEditIcon className="h-4 w-4" />
+                        <span className="sr-only">Edit</span>
+                      </Button>
+                      <Button className="h-8 w-8" size="icon" variant="ghost">
+                        <TrashIcon className="h-4 w-4" />
+                        <span className="sr-only">Delete</span>
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }
 
-function PlusIcon(props: React.SVGProps<SVGSVGElement>) {
+function FileEditIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -187,13 +168,14 @@ function PlusIcon(props: React.SVGProps<SVGSVGElement>) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M5 12h14" />
-      <path d="M12 5v14" />
+      <path d="M4 13.5V4a2 2 0 0 1 2-2h8.5L20 7.5V20a2 2 0 0 1-2 2h-5.5" />
+      <polyline points="14 2 14 8 20 8" />
+      <path d="M10.42 12.61a2.1 2.1 0 1 1 2.97 2.97L7.95 21 4 22l.99-3.95 5.43-5.44Z" />
     </svg>
   );
 }
 
-function XIcon(props: React.SVGProps<SVGSVGElement>) {
+function TrashIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -207,8 +189,9 @@ function XIcon(props: React.SVGProps<SVGSVGElement>) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M18 6 6 18" />
-      <path d="m6 6 12 12" />
+      <path d="M3 6h18" />
+      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
     </svg>
   );
 }
